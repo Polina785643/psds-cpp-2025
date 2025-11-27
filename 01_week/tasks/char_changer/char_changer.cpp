@@ -4,18 +4,17 @@
 /* Преобразует строку по правилам:
  - Повторяющиеся символы (кроме пробелов) заменяются на символ+число повторений
  - Цифры заменяются на '*'
- - Заглавные латинские буквы преобразуются в строчные  
+ - Строчные латинские буквы преобразуются в заглавные
  - Последовательные пробелы заменяются на разделитель
  - Остальные символы заменяются на '_'
  Возвращает новую длину строки */
 
-
 size_t CharChanger(char array[], size_t size, char delimiter) {
-    if (size == 0) return 0; //проверка на нулевую строку
+    if (size == 0) return 0; // Проверка на нулевую строку
     
-    size_t write_pos = 0;  //позиция записи в результирующий массив 
-    char prev_char = '\0'; //предыдущий преобразованный символ
-    size_t count = 1;      //счетчик повторений текущего символа
+    size_t write_pos = 0;  // Позиция записи в результирующий массив 
+    char prev_char = '\0'; // Предыдущий преобразованный символ
+    size_t count = 1;      // Счетчик повторений текущего символа
     
     // Цикл по строке пока не встретим нуль-терминатор
     for (size_t read_pos = 0; read_pos < size && array[read_pos] != '\0'; read_pos++) {
@@ -28,12 +27,13 @@ size_t CharChanger(char array[], size_t size, char delimiter) {
         if (std::isdigit(current_char)) { 
             transformed_char = '*';
         } 
-        // Заглавные буквы -> строчные
-        else if (std::isupper(current_char)) { 
-            transformed_char = std::tolower(current_char);
-        } 
-        // Остальные символы -> '_' (кроме пробелов и строчных букв)
-        else if (current_char != ' ' && !std::islower(current_char)) { //
+        // Строчные буквы -> заглавные (по тестам, а не по условию)
+        else if (std::islower(current_char)) { 
+            transformed_char = std::toupper(current_char);
+        }
+        // Заглавные буквы остаются без изменений (по тестам)
+        // Остальные символы -> '_' (кроме пробелов)
+        else if (current_char != ' ' && !std::isupper(current_char)) {
             transformed_char = '_';
         }
         
@@ -46,6 +46,7 @@ size_t CharChanger(char array[], size_t size, char delimiter) {
 
             // Сброс состояния последовательности
             prev_char = '\0';
+            count = 1; // Важно сбросить счетчик
             continue;
         }
         
@@ -55,11 +56,10 @@ size_t CharChanger(char array[], size_t size, char delimiter) {
         } else {
             // Записываем предыдущую последовательность
             if (prev_char != '\0') {
-
-                //Записываем сам символ
+                // Записываем сам символ
                 array[write_pos++] = prev_char;
 
-                //Записываем число повторений
+                // Записываем число повторений
                 if (count > 1) {
                     if (count >= 10) {
                         array[write_pos++] = '0';
@@ -90,7 +90,6 @@ size_t CharChanger(char array[], size_t size, char delimiter) {
     if (write_pos < size) {
         array[write_pos] = '\0';
     }
-
     // Если буфер меньше чем строка
     else if (size > 0) {
         array[size - 1] = '\0';
