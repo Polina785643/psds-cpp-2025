@@ -12,13 +12,13 @@ void PrintBits(long long value, size_t bytes) {
     std::cout << "0b";
     
     // Цикл по всем битам от старшего к младшему
-    for (size_t byte = bytes - 1; byte >= 0; --byte) {
+    for (int byte = bytes - 1; byte >= 0; --byte) {
 
         // Текущий байт
         unsigned char current_byte = (value >> (byte * 8)) & 0xFF;
         
         // Вывод битов текущего байта
-        for (size_t bit = 7; bit >= 0; --bit) {
+        for (int bit = 7; bit >= 0; --bit) {
             // Текущий бит (7-й бит - старший)
             unsigned char current_bit = (current_byte >> bit) & 1;
             std::cout << (current_bit ? '1' : '0');
