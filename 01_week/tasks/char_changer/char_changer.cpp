@@ -4,7 +4,8 @@
 /* Преобразует строку по правилам:
  - Повторяющиеся символы (кроме пробелов) заменяются на символ+число повторений
  - Цифры заменяются на '*'
- - Строчные латинские буквы преобразуются в заглавные
+ - Строчные латинские буквы не изменяются
+ - Прописные латинские буквы заменяются на строчные
  - Последовательные пробелы заменяются на разделитель
  - Остальные символы заменяются на '_'
  Возвращает новую длину строки */
@@ -27,13 +28,13 @@ size_t CharChanger(char array[], size_t size, char delimiter) {
         if (std::isdigit(current_char)) { 
             transformed_char = '*';
         } 
-        // Строчные буквы -> заглавные (по тестам, а не по условию)
-        else if (std::islower(current_char)) { 
-            transformed_char = std::toupper(current_char);
+        // Прописные буквы -> строчные
+        else if (std::isupper(current_char)) { 
+            transformed_char = std::tolower(current_char);
         }
-        // Заглавные буквы остаются без изменений (по тестам)
-        // Остальные символы -> '_' (кроме пробелов)
-        else if (current_char != ' ' && !std::isupper(current_char)) {
+        // Строчные латинские буквы остаются без изменений
+        // Остальные символы -> '_' (кроме пробелов и латинских букв)
+        else if (current_char != ' ' && !std::islower(current_char) && !std::isupper(current_char)) {
             transformed_char = '_';
         }
         
@@ -46,7 +47,7 @@ size_t CharChanger(char array[], size_t size, char delimiter) {
 
             // Сброс состояния последовательности
             prev_char = '\0';
-            count = 1; // Важно сбросить счетчик
+            count = 1;
             continue;
         }
         
