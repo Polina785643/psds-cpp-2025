@@ -1,6 +1,9 @@
 #include <stdexcept>
 
+/*Функция обмена указателей*/
 
-void SwapPtr(/* write arguments here */) {
-    throw std::runtime_error{"Not implemented"};
+void SwapPtr(int*& ptr1, int*& ptr2) {
+    int* temp = ptr1;
+    ptr1 = ptr2;
+    ptr2 = temp;
 }
