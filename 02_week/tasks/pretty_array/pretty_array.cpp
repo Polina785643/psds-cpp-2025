@@ -15,7 +15,8 @@ void PrintArray(const int* begin, const int* end, size_t limit = 0) {
     size_t count = 0;
     bool first = true;
     
-    while (reverse ? (current >= end) : (current < end)) {
+    // Исправленное условие для обратного порядка
+    while (reverse ? (current > end) : (current < end)) {
         // Если достигли лимита (limit > 0) и это не первый элемент в строке
         if (limit > 0 && count >= limit) {
             std::cout << ", ...\n ";
