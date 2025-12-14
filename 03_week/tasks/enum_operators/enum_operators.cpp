@@ -39,10 +39,9 @@ bool operator&(CheckFlags lhs, CheckFlags rhs) {
         return false;
     }
     
-    // Проверяем, что все единицы lhs присутствуют в rhs
+    // Проверяем, есть ли общий флаг, побитовое И не равно нулю
     return (static_cast<uint8_t>(sanitized_lhs) & 
-            static_cast<uint8_t>(sanitized_rhs)) == 
-           static_cast<uint8_t>(sanitized_lhs);
+            static_cast<uint8_t>(sanitized_rhs)) != 0;
 }
 
 // Оператор исключающего ИЛИ
