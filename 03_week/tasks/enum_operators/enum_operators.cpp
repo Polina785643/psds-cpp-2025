@@ -61,7 +61,7 @@ constexpr CheckFlags operator~(CheckFlags flags) {
     // Берем исходное значение flags, чтобы инвертировать все биты
     uint8_t original = static_cast<uint8_t>(flags);
     
-    // Инвертируем и оставляем только валидные биты
+    // Инвертируем и оставляем только 0-5 биты
     uint8_t inverted = (~original) & mask;
     
     // Если inverted == 0, это означает, что все биты были установлены
