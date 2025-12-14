@@ -76,13 +76,13 @@ bool operator<(const StudentInfo& lhs, const StudentInfo& rhs) {
     // Сравниваем баллы (больший балл в приоритете)
     // 100 > 80, поэтому 100 < 80 в сравнении
     if (lhs.score != rhs.score) {
-        return lhs.score > rhs.score; // true если lhs.score больше
+        return lhs.score > rhs.score; 
     }
     
     // Сравниваем курс (менее опытные в приоритете)
     // 1 > 2 > 3 > 4, поэтому 1 < 2 < 3 < 4 в сравнении
     if (lhs.course != rhs.course) {
-        return lhs.course > rhs.course; // true если lhs.course меньше (обратное)
+        return lhs.course > rhs.course; 
     }
     
     // Сравниваем дату рождения (более молодые в приоритете)
@@ -90,16 +90,16 @@ bool operator<(const StudentInfo& lhs, const StudentInfo& rhs) {
     return lhs.birth_date < rhs.birth_date;
 }
 
+bool operator>(const StudentInfo& lhs, const StudentInfo& rhs) {
+    return rhs < lhs;
+}
+
 bool operator!=(const StudentInfo& lhs, const StudentInfo& rhs) {
     return !(lhs == rhs);
 }
 
 bool operator<=(const StudentInfo& lhs, const StudentInfo& rhs) {
-    return !(lhs > rhs);
-}
-
-bool operator>(const StudentInfo& lhs, const StudentInfo& rhs) {
-    return rhs < lhs;
+    return !(rhs < lhs);
 }
 
 bool operator>=(const StudentInfo& lhs, const StudentInfo& rhs) {
