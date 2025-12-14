@@ -95,7 +95,7 @@ bool operator!=(const StudentInfo& lhs, const StudentInfo& rhs) {
 }
 
 bool operator<=(const StudentInfo& lhs, const StudentInfo& rhs) {
-    return !(lhs > khs);
+    return !(lhs > rhs);
 }
 
 bool operator>(const StudentInfo& lhs, const StudentInfo& rhs) {
