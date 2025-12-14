@@ -56,17 +56,21 @@ constexpr CheckFlags operator^(CheckFlags lhs, CheckFlags rhs) {
 
 // Оператор побитового отрицания
 constexpr CheckFlags operator~(CheckFlags flags) {
-    // Инвертируем только 0-5 биты
-    uint8_t sanitized = static_cast<uint8_t>(sanitize(flags));
     uint8_t mask = static_cast<uint8_t>(CheckFlags::ALL);
+
+    // Берем исходное значение flags, чтобы инвертировать все биты
+    uint8_t original = static_cast<uint8_t>(flags);
     
-    // Если flags был NONE, возвращаем ALL
-    if (sanitized == 0) {
-        return CheckFlags::ALL;
+    // Инвертируем и оставляем только валидные биты
+    uint8_t inverted = (~original) & mask;
+    
+    // Если inverted == 0, это означает, что все биты были установлены
+    // В этом случае возвращаем NONE
+    if (inverted == 0) {
+        return CheckFlags::NONE;
     }
     
-    // Инвертируем только 0-5 биты
-    return static_cast<CheckFlags>((~sanitized) & mask);
+    return static_cast<CheckFlags>(inverted);
 }
 
 // Оператор вывода в поток
