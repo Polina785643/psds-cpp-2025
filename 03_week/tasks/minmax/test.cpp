@@ -33,8 +33,8 @@ TEST(MinMaxTest, AllEqualElements) {
     std::vector<int> vec = {5, 5, 5, 5, 5};
     auto [min_it, max_it] = MinMax(vec);
 
-    EXPECT_NE(min_it, vec.begin());
-    EXPECT_NE(max_it, vec.end() - 1);
+    EXPECT_EQ(min_it, vec.begin());
+    EXPECT_EQ(max_it, vec.end() - 1);
     EXPECT_EQ(*min_it, 5);
     EXPECT_EQ(*max_it, 5);
 }
