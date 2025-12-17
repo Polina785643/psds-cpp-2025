@@ -11,22 +11,22 @@ struct Date {
 };
 
 struct StudentInfo {
-    size_t id;         // идентификация студента
-    char mark;         // оценка
-    int score;         // баллы
-    unsigned course;   // курс
-    Date birth_date;   // дата рождения
+    size_t id;
+    char mark;
+    int score;
+    unsigned course;
+    Date birth_date;
 };
 
 // Вспомогательная функция для преобразования оценки в числовое значение
-// Z имеет наименьшее значение, A - наибольшее
+// Z имеет наименьшее значение (1), A - наибольшее (5)
 int markValue(char mark) {
     switch (mark) {
-        case 'Z': return 1;  // Z - худшая оценка
+        case 'Z': return 1;
         case 'D': return 2;
         case 'C': return 3;
         case 'B': return 4;
-        case 'A': return 5;  // A - лучшая оценка
+        case 'A': return 5;
         default: return 0;
     }
 }
@@ -62,30 +62,30 @@ bool operator==(const StudentInfo& lhs, const StudentInfo& rhs) {
 }
 
 bool operator<(const StudentInfo& lhs, const StudentInfo& rhs) {
-    // 1. Сравниваем оценки (высшая оценка в приоритете: Z < D < C < B < A)
+    // 1. Сравниваем оценки (Z < D < C < B < A)
     int lhsMarkVal = markValue(lhs.mark);
     int rhsMarkVal = markValue(rhs.mark);
     
     if (lhsMarkVal != rhsMarkVal) {
-        // Студент с лучшей оценкой должн быть "меньше" в сравнении
-        return lhsMarkVal > rhsMarkVal;
+        // Студент с худшей оценкой (меньшее значение) должен быть "меньше"
+        return lhsMarkVal < rhsMarkVal;
     }
     
-    // 2. Сравниваем баллы (больший балл в приоритете: 80 < 100)
+    // 2. Сравниваем баллы (80 < 100)
     if (lhs.score != rhs.score) {
-        // Студент с большим баллом должен быть "меньше" в сравнении
-        return lhs.score > rhs.score;
+        // Студент с меньшим баллом должен быть "меньше"
+        return lhs.score < rhs.score;
     }
     
-    // 3. Сравниваем курс (менее опытные в приоритете: 4 < 3)
+    // 3. Сравниваем курс (4 < 3)
     if (lhs.course != rhs.course) {
-        // Студент с меньшим курсом (менее опытный) должен быть "меньше" в сравнении
-        return lhs.course < rhs.course;
+        // Студент с большим курсом (менее опытный) должен быть "меньше"
+        return lhs.course > rhs.course;
     }
     
-    // 4. Сравниваем дату рождения (более молодые в приоритете)
-    // Студент с более поздней датой (моложе) должен быть "меньше" в сравнении
-    return lhs.birth_date > rhs.birth_date;
+    // 4. Сравниваем дату рождения (более старый < более молодой)
+    // Более ранняя дата (старее) должна быть "меньше"
+    return lhs.birth_date < rhs.birth_date;
 }
 
 bool operator>(const StudentInfo& lhs, const StudentInfo& rhs) {
