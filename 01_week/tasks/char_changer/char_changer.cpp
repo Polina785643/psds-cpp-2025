@@ -17,7 +17,6 @@ size_t CharChanger(char array[], size_t size, char delimiter) {
     char current_sequence_char = '\0';
     size_t count = 0;
     bool in_space_sequence = false;
-    bool just_wrote_delimiter = false;
     
     for (size_t read_pos = 0; read_pos < size && array[read_pos] != '\0'; read_pos++) {
         char current_char = array[read_pos];
@@ -36,14 +35,12 @@ size_t CharChanger(char array[], size_t size, char delimiter) {
                 }
                 current_sequence_char = '\0';
                 count = 0;
-                just_wrote_delimiter = false;
             }
             
             // Добавляем разделитель для каждой группы пробелов
             if (!in_space_sequence) {
                 array[write_pos++] = delimiter;
                 in_space_sequence = true;
-                just_wrote_delimiter = true;
             }
             continue;
         }
