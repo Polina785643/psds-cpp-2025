@@ -14,42 +14,62 @@ size_t CharChanger(char array[], size_t size, char delimiter) {
     
     size_t write_pos = 0;
     char prev_char = '\0';
-    size_t count = 1;
+    char current_sequence_char = '\0';
+    size_t count = 0;
+    bool in_space_sequence = false;
+    bool just_wrote_delimiter = false;
     
     for (size_t read_pos = 0; read_pos < size && array[read_pos] != '\0'; read_pos++) {
         char current_char = array[read_pos];
-        char transformed_char = current_char;
         
-        // Цифры -> '*'
-        if (std::isdigit(current_char)) {
-            transformed_char = '*';
-        }
-        // Латинские буквы -> прописные
-        else if (std::isalpha(current_char)) {
-            transformed_char = std::toupper(current_char);
-        }
-        // Остальные символы -> '_' (кроме пробелов)
-        else if (current_char != ' ') {
-            transformed_char = '_';
-        }
-        
-        // Пробелы -> разделитель
+        // Обработка пробелов
         if (current_char == ' ') {
-            if (write_pos == 0 || array[write_pos - 1] != delimiter) {
-                array[write_pos++] = delimiter;
+            // Если у нас есть незаписанная последовательность, записываем ее
+            if (current_sequence_char != '\0') {
+                array[write_pos++] = current_sequence_char;
+                if (count > 1) {
+                    if (count >= 10) {
+                        array[write_pos++] = '0';
+                    } else {
+                        array[write_pos++] = '0' + count;
+                    }
+                }
+                current_sequence_char = '\0';
+                count = 0;
+                just_wrote_delimiter = false;
             }
-            prev_char = '\0';
-            count = 1;
+            
+            // Добавляем разделитель для каждой группы пробелов
+            if (!in_space_sequence) {
+                array[write_pos++] = delimiter;
+                in_space_sequence = true;
+                just_wrote_delimiter = true;
+            }
             continue;
         }
         
+        // Не пробел - сбрасываем флаг последовательности пробелов
+        in_space_sequence = false;
+        just_wrote_delimiter = false;
+        
+        // Преобразование символа
+        char transformed_char = current_char;
+        
+        if (std::isdigit(current_char)) {
+            transformed_char = '*';
+        } else if (std::isalpha(current_char)) {
+            transformed_char = std::toupper(current_char);
+        } else if (current_char != ' ') {
+            transformed_char = '_';
+        }
+        
         // Обработка последовательностей символов
-        if (transformed_char == prev_char) {
+        if (current_char == prev_char) {
             count++;
         } else {
             // Запись предыдущей последовательности
-            if (prev_char != '\0') {
-                array[write_pos++] = prev_char;
+            if (current_sequence_char != '\0') {
+                array[write_pos++] = current_sequence_char;
                 if (count > 1) {
                     if (count >= 10) {
                         array[write_pos++] = '0';
@@ -59,14 +79,15 @@ size_t CharChanger(char array[], size_t size, char delimiter) {
                 }
             }
             // Начало новой последовательности
-            prev_char = transformed_char;
+            prev_char = current_char;
+            current_sequence_char = transformed_char;
             count = 1;
         }
     }
     
-    // Запись последней последовательности
-    if (prev_char != '\0') {
-        array[write_pos++] = prev_char;
+    // Запись последней последовательности (если не пробел)
+    if (current_sequence_char != '\0') {
+        array[write_pos++] = current_sequence_char;
         if (count > 1) {
             if (count >= 10) {
                 array[write_pos++] = '0';
