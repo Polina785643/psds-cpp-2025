@@ -59,10 +59,10 @@ Queue::Queue() = default;
 
 // Конструктор от размера
 Queue::Queue(size_t capacity) {
-    // Все элементы изначально добавляются в input_stack
-    // Поэтому резервируем всю capacity для него
+    // Максимальное резервирование для производительности
     input_stack.reserve(capacity);
-    // output_stack может оставаться пустым до первого Pop()
+    // output_stack тоже резервируем, но меньше
+    output_stack.reserve(capacity / 4);
 }
 
 // Конструктор от std::stack<int> 
