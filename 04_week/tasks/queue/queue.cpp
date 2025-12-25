@@ -3,7 +3,6 @@
 #include <initializer_list>
 #include <algorithm>
 #include <stdexcept>
-#include <cassert>
 
 class Queue {
 private:
@@ -124,8 +123,6 @@ bool Queue::Pop() {
 // Метод Front : доступ на чтение и запись к первому элементу
 // Возвращает ссылку на первый элемент очереди
 int& Queue::Front() {
-    // Проверка предусловия: очередь не должна быть пуста
-    assert(!Empty() && "Front() called on empty queue");
 
     // Если output_stack пуст, перекладываем элементы
     if (output_stack.empty()) {
@@ -140,8 +137,6 @@ int& Queue::Front() {
 // Возвращает константную ссылку на первый элемент очереди
 // Не модифицирует объект
 const int& Queue::Front() const {
-    // Проверка предусловия
-    assert(!Empty() && "Front() called on empty queue");
     
     // Константная версия не может вызывать TransferElements()
     // Должна работать с текущим состоянием объекта
@@ -158,8 +153,6 @@ const int& Queue::Front() const {
 // Метод Back : доступ на чтение и запись к последнему элементу
 // Возвращает ссылку на последний добавленный элемент
 int& Queue::Back() {
-    // Проверка предусловия
-    assert(!Empty() && "Back() called on empty queue");
 
     // Последний элемент очереди может находиться:
     // 1. В input_stack, если в него добавлялись элементы (последний добавленный)
@@ -174,8 +167,6 @@ int& Queue::Back() {
 // Метод Back (константная версия): доступ только на чтение к последнему элементу
 // Возвращает константную ссылку на последний элемент очереди
 const int& Queue::Back() const {
-    // Проверка предусловия
-    assert(!Empty() && "Back() called on empty queue");
 
     // Возвращает const ссылку
     if (!input_stack.empty()) {
