@@ -45,25 +45,23 @@ public:
 
 // Вспомогательный метод: перекладывает элементы из input_stack в output_stack
 void Queue::TransferElements() {
-    while (!input_stack.empty()) {
-        // Берем элемент с конца input_stack (последний добавленный)
-        output_stack.push_back(input_stack.back());
-        // Удаляем его из input_stack
-        input_stack.pop_back();
+    // Если input_stack пуст, ничего не делаем
+    if (input_stack.empty()) return;
+    
+    // Оптимизация: reserve перед копированием
+    output_stack.reserve(output_stack.size() + input_stack.size());
+    
+    // Копируем в обратном порядке
+    for (auto it = input_stack.rbegin(); it != input_stack.rend(); ++it) {
+        output_stack.push_back(*it);
     }
-    // После перекладывания порядок элементов меняется на обратный
+    
+    // Очищаем input_stack
+    input_stack.clear();
 }
 
 // Конструктор по умолчанию: создает пустую очередь
 Queue::Queue() = default;
-
-// Конструктор от размера
-Queue::Queue(size_t capacity) {
-    // Максимальное резервирование для производительности
-    input_stack.reserve(capacity);
-    // output_stack тоже резервируем, но меньше
-    output_stack.reserve(capacity / 4);
-}
 
 // Конструктор от std::stack<int> 
 Queue::Queue(std::stack<int> s) {
