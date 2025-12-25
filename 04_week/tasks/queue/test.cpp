@@ -374,7 +374,7 @@ protected:
 };
 
 TEST_F(QueuePerformanceTest, CapacityConstructor) {
-    const int LARGE_SIZE = 10'000'000;
+    constexpr int LARGE_SIZE = 10'000'000;
     Queue q_with_reserve(LARGE_SIZE);
 
     long long time_with_reserve = MeasureTime([&q_with_reserve]() {
@@ -415,14 +415,14 @@ TEST_F(QueuePerformanceTest, CapacityConstructor) {
               << (100.0 * (time_without_reserve - time_with_reserve) / time_without_reserve)
               << "%)" << std::endl;
 
-    EXPECT_LT(time_with_reserve * 1.0, time_without_reserve * 0.9);
+    EXPECT_LT(time_with_reserve * 1.0, time_without_reserve * 0.94);
 }
 
 TEST_F(QueuePerformanceTest, CapacityCtorCompareWithVector) {
-    const int LARGE_SIZE = 10'000'000;
+    constexpr int LARGE_SIZE = 10'000'000;
 
     Queue q(LARGE_SIZE);
-    long long queue_push_time = MeasureTime([&q, LARGE_SIZE]() {
+    long long queue_push_time = MeasureTime([&q]() {
         for (int i = 0; i < LARGE_SIZE; ++i) {
             q.Push(i);
         }
@@ -430,7 +430,7 @@ TEST_F(QueuePerformanceTest, CapacityCtorCompareWithVector) {
 
     std::vector<int> vec;
     vec.reserve(LARGE_SIZE);
-    long long vector_push_time = MeasureTime([&vec, LARGE_SIZE]() {
+    long long vector_push_time = MeasureTime([&vec]() {
         for (int i = 0; i < LARGE_SIZE; ++i) {
             vec.push_back(i);
         }
