@@ -58,41 +58,33 @@ void Queue::TransferElements() {
 // Конструктор по умолчанию: создает пустую очередь
 Queue::Queue() = default;
 
-// Конструктор от std::stack<int>
-// Принимает стек и создает очередь с теми же элементами в том же порядке
+// Конструктор от std::stack<int> 
 Queue::Queue(std::stack<int> s) {
-    // Создаем временный вектор для хранения элементов стека
+    // Стек: последний добавленный наверху
+    // Нужно создать очередь в том же порядке, что и в стеке при извлечении
     std::vector<int> temp;
-    
-    // Извлекаем все элементы из стека (они будут в обратном порядке)
     while (!s.empty()) {
-        temp.push_back(s.top());  // Берем верхний элемент стека
-        s.pop();  // Удаляем его из стека
+        temp.push_back(s.top());  // берем сверху
+        s.pop();
     }
     
-    // Добавляем элементы в output_stack в правильном порядке 
+    // Помещаем в input_stack в обратном порядке для сохранения 
+    // или в output_stack с правильным порядком
     for (auto it = temp.rbegin(); it != temp.rend(); ++it) {
-        output_stack.push_back(*it);
+        input_stack.push_back(*it);  
     }
 }
 
 // Конструктор от std::vector<int>
-// Создает очередь с элементами из вектора в том же порядке
 Queue::Queue(const std::vector<int>& vec) {
-    // Копируем элементы вектора в output_stack
-    output_stack = vec;
-    // Переворачиваем output_stack, так как он хранит элементы в обратном порядке
-    // (первый элемент очереди должен быть в конце output_stack)
-    std::reverse(output_stack.begin(), output_stack.end());
+    // Вектор уже в правильном порядке FIFO
+    input_stack = vec;  
 }
 
-// Конструктор от std::initializer_list<int>
-// Позволяет создавать очередь с помощью списка инициализации: Queue q = {1, 2, 3};
+// Конструктор от std::initializer_list<int> 
 Queue::Queue(std::initializer_list<int> init_list) {
-    // Копируем элементы из initializer_list в output_stack
-    output_stack.assign(init_list.begin(), init_list.end());
-    // Переворачиваем output_stack для правильного порядка 
-    std::reverse(output_stack.begin(), output_stack.end());
+    // initializer_list уже в правильном порядке 
+    input_stack.assign(init_list.begin(), init_list.end());  // {1, 2, 3, 4, 5}
 }
 
 // Конструктор от размера очереди
