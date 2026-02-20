@@ -16,7 +16,7 @@ on:
           - simple_vector
 
   schedule:
-    - cron: '59 20 16 02 *'  # UTC: 20:59 = 23:59 MSK 16 February
+    - cron: '59 20 17 02 *'  # UTC: 20:59 = 23:59 MSK 17 February
 
 jobs:
   test:
@@ -33,7 +33,7 @@ jobs:
       - name: Determine tasks to run
         id: get-tasks
         run: |
-          if [["${{ github.event_name }}" = "schedule"]] || 
+          if [[ "${{ github.event_name }}" = "schedule" ]] || 
             [[ "${{ github.event.inputs.tasks }}" = "all" ]]; then
             # Find all tasks
             TASKS=()

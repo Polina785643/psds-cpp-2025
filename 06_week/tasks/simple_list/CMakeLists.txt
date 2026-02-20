@@ -1,0 +1,1 @@
+add_gtest_asan(test_simple_list test.cpp)

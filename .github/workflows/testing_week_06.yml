@@ -1,4 +1,4 @@
-name: Testing Tasks Week 01
+name: Testing Tasks Week 06
 
 on:
   workflow_dispatch:
@@ -10,16 +10,12 @@ on:
         default: 'all'
         options:
           - all
-          - addition
-          - rms
-          - print_bits
-          - check_flags
-          - length_lit
-          - quadratic
-          - char_changer
+          - unique_ptr
+          - smart_ptr
+          - simple_list
 
   schedule:
-    - cron: '59 20 4 12 *'  # UTC: 20:59 = 23:59 MSK 4 December
+    - cron: '59 20 23 02 *'  # UTC: 20:59 = 23:59 MSK 23 February
 
 jobs:
   test:
@@ -40,7 +36,7 @@ jobs:
             [[ "${{ github.event.inputs.tasks }}" = "all" ]]; then
             # Find all tasks
             TASKS=()
-            for dir in 01_week/tasks/*/; do
+            for dir in 06_week/tasks/*/; do
               task=$(basename "$dir")
               TASKS+=("$task")
             done
@@ -77,13 +73,16 @@ jobs:
               if ./build/tasks/test_$task; then
                 echo "✅ test_$task PASSED"
                 passed_count+=1
+                passed_tasks+=("$task")
               else
                 echo "❌ test_$task FAILED"
                 failed_count+=1
+                failed_tasks+=("$task")
               fi
             else
               echo "❌ test_$task build FAILED"
               failed_count+=1
+              failed_tasks+=("$task")
             fi
           done
           

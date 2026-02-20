@@ -35,7 +35,7 @@ jobs:
       - name: Determine tasks to run
         id: get-tasks
         run: |
-          if [["${{ github.event_name }}" = "schedule"]] || 
+          if [[ "${{ github.event_name }}" = "schedule" ]] || 
             [[ "${{ github.event.inputs.tasks }}" = "all" ]]; then
             # Find all tasks
             TASKS=()
