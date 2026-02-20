@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -fsanitize=address,undefined CMakeFiles/test_addition.dir/test.cpp.o -o ../../../tasks/test_addition  ../../../lib/libgtest.a ../../../lib/libgtest_main.a ../../../lib/libgtest.a 
